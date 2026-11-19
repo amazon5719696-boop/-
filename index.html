@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Gallery | تحف وهدايا</title>
+<meta name="description" content="متجر My Gallery: تحف وهدايا واكليرك وسيليكون ومج بطلب سهل عبر واتساب">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff7fb;--card:#fff;--text:#2b1840;--muted:#7a6a8c;--chip:#f1e6ff;--a:#7c3aed;--b:#ec4899;--c:#f59e0b;--shadow:0 6px 18px rgba(124,58,237,.15);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#150d22;--card:#241538;--text:#f6eeff;--muted:#b9a7d1;--chip:#34204f;--shadow:0 6px 18px rgba(0,0,0,.4)}}
+*{box-sizing:border-box;margin:0}
+body{font-family:"Cairo","Segoe UI",Tahoma,sans-serif;background:var(--bg);color:var(--text);max-width:480px;margin:auto;padding-bottom:0}
+header{background:linear-gradient(135deg,var(--a),var(--b) 60%,var(--c));color:#fff;padding:22px 18px 30px;border-radius:0 0 28px 28px}
+.top{display:flex;justify-content:space-between;align-items:center}
+h1{font-size:24px}
+.sub{opacity:.9;font-size:14px;margin-top:4px}
+#cartBtn{background:#fff3;border:0;color:#fff;font-size:22px;border-radius:50%;width:46px;height:46px;position:relative;cursor:pointer}
+#badge{position:absolute;top:-4px;left:-4px;background:var(--c);color:#2b1840;font-size:12px;font-weight:700;border-radius:50%;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center}
+#q{width:100%;margin-top:16px;padding:13px 16px;border-radius:16px;border:0;font:inherit;font-size:15px;background:#fff;color:#2b1840}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:16px 14px 6px}
+.chip{flex:none;border:0;background:var(--chip);color:var(--text);padding:10px 16px;border-radius:20px;font:inherit;font-size:14px;cursor:pointer}
+.chip.on{background:linear-gradient(135deg,var(--a),var(--b));color:#fff;box-shadow:var(--shadow)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 14px}
+.card{background:var(--card);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
+.pic{height:110px;display:flex;align-items:center;justify-content:center;font-size:56px;position:relative}
+.heart{position:absolute;top:8px;left:8px;background:#fff9;border:0;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer}
+.info{padding:10px 12px 12px}
+.name{font-weight:700;font-size:15px}
+.desc{color:var(--muted);font-size:12px;margin:2px 0 8px}
+.row{display:flex;justify-content:space-between;align-items:center}
+.price{font-weight:800;color:var(--a);font-size:15px}
+.add{border:0;background:linear-gradient(135deg,var(--b),var(--c));color:#fff;border-radius:12px;width:38px;height:38px;font-size:20px;cursor:pointer}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:30px}
+#sheet{position:fixed;inset:0;background:#0007;display:none;align-items:flex-end;justify-content:center;z-index:20}
+#sheet.open{display:flex}
+.panel{background:var(--card);width:100%;max-width:480px;border-radius:26px 26px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));max-height:80vh;overflow:auto}
+.item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--chip)}
+.item .e{font-size:30px}
+.item .n{flex:1;font-size:14px;font-weight:700}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button{border:0;background:var(--chip);color:var(--text);width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer}
+.total{display:flex;justify-content:space-between;font-weight:800;font-size:17px;margin:14px 0}
+.buy{width:100%;border:0;padding:15px;border-radius:16px;font:inherit;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(135deg,#16a34a,#22c55e);cursor:pointer}
+nav{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:auto;background:var(--card);display:flex;justify-content:space-around;padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px));border-radius:22px 22px 0 0;box-shadow:0 -6px 18px rgba(124,58,237,.15)}
+nav button{border:0;background:none;color:var(--muted);font:inherit;font-size:12px;cursor:pointer}
+nav button.on{color:var(--a);font-weight:700}
+nav span{display:block;font-size:22px}
+.pic.big{height:170px;font-size:84px;border-radius:18px;margin-bottom:10px;overflow:hidden}
+.feat{list-style:none;padding:0;margin-top:8px}.feat li{background:var(--chip);border-radius:12px;padding:9px 12px;margin-bottom:6px;font-size:14px}
+.offer{display:flex;flex-direction:column;gap:2px;background:linear-gradient(135deg,#fdf2f8,#f3e8ff);color:#2b1840;border-radius:16px;padding:12px 14px;margin-bottom:10px;border:2px dashed var(--b)}
+.offer b{color:var(--a)}
+#modal{position:fixed;inset:0;background:#0007;display:none;align-items:flex-end;justify-content:center;z-index:30}#modal.open{display:flex}
+.social{text-align:center;padding:14px 14px 4px;color:var(--muted);font-size:14px}
+.srow{display:flex;justify-content:center;gap:12px;margin-top:10px}
+.srow button{width:46px;height:46px;border-radius:50%;border:0;color:#fff;font-size:20px;font-weight:800;cursor:pointer;box-shadow:var(--shadow)}
+#bear{position:fixed;left:8px;top:48%;width:46px;height:62px;border:0;background:none;cursor:grab;z-index:15;filter:drop-shadow(0 4px 6px rgba(236,72,153,.5));animation:bob 2s ease-in-out infinite;padding:0;touch-action:none;user-select:none;transition:left .45s cubic-bezier(.34,1.56,.64,1)}
+#bear.drag{transition:none;cursor:grabbing}
+#soc{position:fixed;right:8px;top:34%;display:flex;flex-direction:column;gap:9px;z-index:14}
+.sb{position:relative}
+.sb button{width:36px;height:36px;border-radius:50%;border:2px solid #fff;color:#fff;font-size:16px;font-weight:800;cursor:pointer;box-shadow:var(--shadow);display:block}
+.pop{position:absolute;right:44px;top:50%;transform:translateY(-50%) scale(.5);transform-origin:right center;opacity:0;pointer-events:none;transition:.2s;background:var(--card);color:var(--text);padding:7px 10px;border-radius:14px;box-shadow:var(--shadow);font-size:12px;direction:ltr;display:flex;gap:8px;align-items:center;max-width:calc(100vw - 70px)}
+.pop.on{opacity:1;transform:translateY(-50%) scale(1);pointer-events:auto}
+.pop span{white-space:nowrap}
+.pop a{background:linear-gradient(135deg,var(--a),var(--b));color:#fff;border-radius:10px;padding:5px 10px;text-decoration:none;font-size:12px;flex:none}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+/* ===== السماء والغيوم + الشعار ===== */
+:root{--bg:#f2f9ff}
+header{position:relative;overflow:hidden;background:linear-gradient(180deg,#0ea5e9,#38bdf8 55%,#bae6fd);text-shadow:0 1px 4px rgba(3,105,161,.45)}
+header::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 46px 16px at 12% 28%,#fff,transparent 70%),radial-gradient(ellipse 70px 22px at 38% 62%,#ffffffd9,transparent 70%),radial-gradient(ellipse 54px 18px at 64% 22%,#fff,transparent 70%),radial-gradient(ellipse 80px 24px at 88% 70%,#ffffffcc,transparent 70%);background-size:200% 100%;animation:drift 40s linear infinite alternate;opacity:.9}
+header>*{position:relative}
+@keyframes drift{from{background-position:0 0}to{background-position:100% 0}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) header{background:linear-gradient(180deg,#1e3a8a,#3b82f6 90%)}}
+#logo{font-family:"Lalezar","Cairo",sans-serif;font-size:36px;font-weight:400;letter-spacing:1px}
+#logo span{display:inline-block;animation:wave 1.8s ease-in-out infinite}
+@keyframes wave{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-7px) rotate(-4deg)}}
+/* ===== منتجات أصغر: ٣ في الصف ===== */
+.grid{grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 10px}
+.card{border-radius:14px}
+.pic{height:76px;font-size:38px}
+.heart{width:24px;height:24px;font-size:12px;top:5px;left:5px}
+.info{padding:7px 8px 9px}
+.name{font-size:12px;line-height:1.3}
+.desc{font-size:10px;margin:2px 0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.price{font-size:11px}
+.add{width:28px;height:28px;font-size:17px;border-radius:9px}
+/* ===== أيقونات التواصل: صف ثابت أسفل الشاشة ===== */
+#soc{left:0;right:0;top:auto;bottom:calc(74px + env(safe-area-inset-bottom,0px));flex-direction:row;justify-content:center;gap:14px;pointer-events:none}
+.sb button{width:34px;height:34px;font-size:15px;pointer-events:auto}
+.pop{position:fixed;right:auto;top:auto;transform:scale(.4);max-width:calc(100vw - 16px);pointer-events:none}
+.pop.on{transform:scale(1);pointer-events:auto}
+/* ===== الدبدوب داخل دائرة بيضاء بمظهر 3D ===== */
+#bear{width:60px;height:60px;border-radius:50%;background:#fff;padding:6px;border:2px solid #fbcfe8;perspective:160px;filter:drop-shadow(0 4px 8px rgba(236,72,153,.45))}
+#bear svg{animation:sway 3s ease-in-out infinite;transform-style:preserve-3d}
+@keyframes sway{0%,100%{transform:rotateY(-22deg) rotateZ(-3deg)}50%{transform:rotateY(22deg) rotateZ(3deg)}}
+/* ===== فوتر التواصل ===== */
+#ft{background:#000;color:#fff;text-align:center;padding:26px 16px 96px;margin-top:18px;border-radius:26px 26px 0 0}
+#ft h3{font-size:20px;margin-bottom:12px}
+#ft h4{font-size:15px;font-weight:600;margin:22px 0 14px}
+#ft .ph{display:inline-flex;align-items:center;gap:8px;color:#fff;text-decoration:none;font-size:20px;letter-spacing:1px}
+#ft .ph svg{width:22px;height:22px;fill:#fff}
+.fi{display:flex;justify-content:center;gap:26px}
+.fi a{color:#fff;display:flex;cursor:pointer}
+.fi svg{width:28px;height:28px}
+#ft .cp{margin-top:22px;padding-top:16px;border-top:1px solid #333;color:#bbb;font-size:13px}
+.fi{flex-direction:column;align-items:flex-end;gap:18px;padding:0 24px}
+.pop{background:transparent;box-shadow:none;color:#fff;padding:2px 4px;font-size:14px;white-space:nowrap}
+.pop a{background:none;color:#fff;padding:0;border-radius:0;font-size:14px;text-decoration:underline}
+/* ===== شريط القائمة الأبيض + التسجيل ===== */
+#bar{position:sticky;top:0;z-index:12;background:#fff;color:#2b1840;display:flex;align-items:center;gap:12px;padding:10px 16px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+#hb{border:0;background:none;display:flex;flex-direction:column;gap:5px;padding:6px;cursor:pointer}
+#hb i{display:block;width:26px;height:3px;border-radius:2px;background:#2b1840}
+#hello{font-weight:700;font-size:14px}
+#menu{display:none;position:absolute;top:100%;right:12px;background:#fff;border-radius:0 0 16px 16px;box-shadow:0 8px 20px rgba(0,0,0,.2);padding:8px;min-width:180px;flex-direction:column;gap:6px}
+#menu.open{display:flex}
+#menu button{border:0;border-radius:12px;padding:11px 14px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;color:#2b1840;background:#f1e6ff;text-align:right}
+#menu button:first-child{background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff}
+.sec{font-family:"Lalezar","Cairo",sans-serif;font-weight:400;font-size:32px;color:#0891b2;text-align:center;margin:20px 14px 0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sec{color:#22d3ee}}
+.inp{width:100%;padding:12px 14px;border-radius:14px;border:1.5px solid var(--chip);background:var(--bg);color:var(--text);font:inherit;font-size:15px;margin-bottom:10px}
+.two{display:flex;gap:8px}.two .inp{min-width:0}
+.amsg{min-height:20px;font-size:13px;margin-bottom:8px;color:#dc2626}
+.amsg.ok{color:#16a34a}
+#brand{display:flex;align-items:center;gap:7px}
+#brand svg{width:30px;height:30px}
+#brand b{font-family:"Lalezar","Cairo",sans-serif;font-weight:400;font-size:23px;background:linear-gradient(90deg,#7c3aed,#ec4899,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent}
+#hello:empty{display:none}
+#hello{font-size:12px;color:#7a6a8c;font-weight:600}
+.bi{margin-inline-start:auto;display:flex;gap:8px}
+.bi button{width:38px;height:38px;border-radius:50%;border:0;background:#efe9fb;color:#2b1840;cursor:pointer;display:flex;align-items:center;justify-content:center;font:700 13px "Cairo",sans-serif}
+.bi button svg{width:20px;height:20px}
+:root[data-theme="dark"]{--bg:#000;--card:#1a1226;--text:#f6eeff;--muted:#b9a7d1;--chip:#2c1b44;--shadow:0 6px 18px rgba(0,0,0,.5)}
+:root[data-theme="dark"] header{background:linear-gradient(180deg,#1e3a8a,#3b82f6 90%)}
+:root[data-theme="dark"] .sec{color:#22d3ee}
+:root[data-theme="light"]{--bg:#fff}
+[dir="ltr"] #menu{right:auto;left:12px}
+[dir="ltr"] #menu button{text-align:left}
+.fi{align-items:flex-start}
+[dir="ltr"] .fi{align-items:flex-end}
+#brand{cursor:pointer;position:relative}
+.ln{position:absolute;bottom:-11px;left:0;font-size:9px;color:#999;font-family:Cairo,sans-serif}
+#brand{cursor:default}
+.frow{display:flex;align-items:flex-start;gap:10px}
+[dir="ltr"] .frow{flex-direction:row-reverse}
+.fi{flex:none;padding:0 6px}
+.flinks{flex:1;text-align:start}
+.flinks h5{font-size:16px;font-weight:800;margin:0 0 4px}
+.lk{display:flex;justify-content:space-between;align-items:center;width:100%;background:none;border:0;border-bottom:1px solid #222;color:#fff;font:inherit;font-size:14px;padding:11px 4px;cursor:pointer;text-align:start}
+.lk i{font-style:normal;font-size:18px;color:#aaa}
+#pg{position:fixed;inset:0;background:var(--bg);color:var(--text);z-index:40;display:none;flex-direction:column;max-width:480px;margin:auto;padding-top:env(safe-area-inset-top,0px)}
+#pg.open{display:flex}
+.pgh{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#fff;color:#2b1840;box-shadow:0 2px 10px rgba(0,0,0,.12);font-size:17px}
+.pgh button{border:0;background:#efe9fb;color:#2b1840;width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pgh button svg{width:20px;height:20px}
+[dir="ltr"] .pgh button svg{transform:scaleX(-1)}
+#pgB{flex:1;overflow:auto;padding:16px 16px calc(24px + env(safe-area-inset-bottom,0px));line-height:1.8}
+.pgp{color:var(--muted);text-align:center;margin:26px 0 16px}
+.oc{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:12px 14px;margin-bottom:12px}
+.orow{display:flex;justify-content:space-between;gap:10px;padding:4px 0;font-size:14px}
+.sech{font-weight:800;margin:16px 0 8px;font-size:16px;color:var(--a)}
+:root{--fbg:#fff;--ftx:#111;--fln:#e5e5e5}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fbg:#000;--ftx:#fff;--fln:#222}}
+:root[data-theme="dark"]{--fbg:#000;--ftx:#fff;--fln:#222}
+#ft{background:var(--fbg);color:var(--ftx)}
+.lk{color:var(--ftx);border-bottom-color:var(--fln)}
+.lk i{color:var(--muted)}
+.fi a{color:var(--ftx)}
+#f-yt svg path{fill:var(--fbg)}
+#ft .cp{border-top-color:var(--fln);color:var(--muted)}
+.pop,.pop a{color:var(--ftx)}
+#bear{z-index:20}
+.fi svg{width:34px;height:34px}
+.fi{gap:16px}
+
+/* ===== إضافات: التنبيه + الخصم + قسم الآراء ===== */
+#toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:#2b1840;color:#fff;padding:10px 18px;border-radius:20px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:60;white-space:nowrap}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+.card{cursor:pointer}
+.drow{display:none;justify-content:space-between;font-size:14px;color:#16a34a;font-weight:700;margin:8px 0 0}
+.drow.on{display:flex}
+#gift{display:none;background:var(--chip);border-radius:12px;padding:9px 12px;font-size:13px;margin-top:8px}
+#gift.on{display:block}
+#fb{margin:18px 14px 0;background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:18px 16px;text-align:center}
+#fb h3{font-family:"Lalezar","Cairo",sans-serif;font-weight:400;font-size:24px;color:#0891b2}
+#fb p{color:var(--muted);font-size:13px;margin:4px 0 10px}
+.stars{display:flex;justify-content:center;gap:6px;direction:ltr;margin-bottom:10px}
+.stars button{border:0;background:none;font-size:32px;cursor:pointer;color:#cbd5e1;line-height:1;padding:0 2px}
+.stars button.on{color:#f59e0b}
+#fb textarea{min-height:84px;resize:vertical}
+#fb .two{margin-top:2px}
+#fb .buy{margin-bottom:8px}
+#fb .alt{background:linear-gradient(135deg,var(--a),var(--b))}
+.rvh{display:flex;justify-content:space-between;align-items:center;margin:18px 0 8px;font-weight:800;font-size:16px;color:var(--a)}
+.rvh small{color:var(--muted);font-weight:600;font-size:12px}
+.rvc{background:var(--chip);border-radius:14px;padding:10px 12px;margin-bottom:8px}
+.rvc .top2{display:flex;justify-content:space-between;font-size:13px;margin-bottom:2px}
+.rvc .st{color:#f59e0b;letter-spacing:1px;direction:ltr}
+.rvc p{font-size:13px;line-height:1.7}
+.rvn{font-size:11px;color:var(--muted);margin:4px 0 8px}
+.rs button{font-size:26px}
+.rvf{margin-top:12px;border-top:1px solid var(--chip);padding-top:12px}
+.rvf textarea{min-height:70px}
+</style>
+</head>
+<body>
+<div id="bar"><button id="hb" data-au="menu" aria-label="القائمة"><i></i><i></i><i></i></button><div id="brand" data-au="logo"><svg viewBox="0 0 32 32"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset=".55" stop-color="#ec4899"/><stop offset="1" stop-color="#f59e0b"/></linearGradient></defs><rect x="2" y="4" width="28" height="24" rx="6" fill="url(#lg)"/><circle cx="11" cy="12" r="3" fill="#fff"/><path d="M4 25l9-9 5 5 4-4 8 8z" fill="#fff" fill-opacity=".92"/></svg><b>My Gallery</b></div><span id="hello"></span>
+<div class="bi"><button data-au="search" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg></button><button id="themeBtn" data-au="theme" aria-label="Theme"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button id="langBtn" data-au="lang" aria-label="Language">EN</button></div><div id="menu"></div></div>
+<header>
+  <div class="top"><div><h1 id="logo" dir="ltr">My Gallery</h1><div class="sub">أجمل التحف والهدايا لأحبابك</div></div>
+  <button id="cartBtn" aria-label="السلة">🛒<span id="badge">0</span></button></div>
+  <input id="q" placeholder="ابحث عن هدية أو تحفة…">
+</header>
+<h2 class="sec">تصفح حسب الفئة</h2>
+<div class="chips" id="chips"></div>
+<div class="grid" id="grid"></div>
+<section id="fb"><h3>رأيك يهمنا</h3><p>شاركنا تقييمك واقتراحاتك لتحسين المتجر</p><div class="stars" id="stars"><button data-st="1" aria-label="1">★</button><button data-st="2" aria-label="2">★</button><button data-st="3" aria-label="3">★</button><button data-st="4" aria-label="4">★</button><button data-st="5" aria-label="5">★</button></div><input class="inp" id="fb-n" placeholder="اسمك (اختياري)"><textarea class="inp" id="fb-t" placeholder="اكتب رأيك أو اقتراحك هنا…"></textarea><button class="buy alt" id="fb-send">أرسل رأيك عبر واتساب 💬</button><button class="buy" id="fb-cm" style="display:none;background:linear-gradient(135deg,#0ea5e9,#38bdf8)">علّق على الصفحة مباشرة 📝</button></section>
+<footer id="ft">
+<h3>تواصل معنا</h3>
+<h4>تابعنا على وسائل التواصل الاجتماعي</h4>
+<div class="frow"><div class="fi">
+<a id="f-wa" data-s="wa" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path fill="currentColor" d="M9 7.8c.3-.4.7-.3.9.1l.7 1.5c.1.3 0 .5-.2.7l-.4.5c.7 1.3 1.7 2.2 3 2.9l.5-.5c.2-.2.5-.3.8-.1l1.5.7c.4.2.5.6.2 1-.6.8-1.6 1.1-2.6.7-2.4-.9-4.3-2.8-5.2-5.2-.3-.9 0-1.7.8-2.3z"/></svg></a>
+<a id="f-ig" data-s="ig" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
+<a id="f-fb" data-s="fb" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M14 8V6.2c0-.8.2-1.2 1.4-1.2H17V2h-2.6C11.4 2 10 3.7 10 6v2H7.5v3H10v11h4V11h2.8l.5-3z"/></svg></a>
+<a id="f-x" data-s="x" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+<a id="f-yt" data-s="yt" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="currentColor"/><path d="M10 9l5 3-5 3z" fill="#000"/></svg></a>
+</div>
+<div class="flinks"><h5>حسابي</h5>
+<button class="lk" data-pg="orders">طلباتي<i>›</i></button>
+<button class="lk" data-pg="returns">مرتجعاتي<i>›</i></button>
+<button class="lk" data-pg="info">معلوماتي<i>›</i></button>
+<h5 style="margin-top:22px">خدمة العملاء</h5>
+<button class="lk" data-pg="about">من نحن<i>›</i></button>
+<button class="lk" data-pg="support">الدعم<i>›</i></button>
+<button class="lk" data-pg="address">العنوان<i>›</i></button></div></div>
+<div class="pop" id="pop-wa"></div><div class="pop" id="pop-ig"></div><div class="pop" id="pop-fb"></div><div class="pop" id="pop-x"></div><div class="pop" id="pop-yt"></div>
+<div class="cp">حقوق النشر محفوظة © 2026 My Gallery</div>
+</footer>
+<button id="bear" aria-label="الهدايا والخصومات"><svg viewBox="0 0 60 82" width="100%" height="100%"><defs><radialGradient id="bg3" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#fbcfe8"/><stop offset=".55" stop-color="#f472b6"/><stop offset="1" stop-color="#be185d"/></radialGradient></defs><circle cx="14" cy="12" r="8" fill="url(#bg3)"/><circle cx="46" cy="12" r="8" fill="url(#bg3)"/><circle cx="14" cy="12" r="4" fill="#fbcfe8"/><circle cx="46" cy="12" r="4" fill="#fbcfe8"/><ellipse cx="9" cy="52" rx="7" ry="11" fill="#f472b6" transform="rotate(15 9 52)"/><ellipse cx="51" cy="52" rx="7" ry="11" fill="#f472b6" transform="rotate(-15 51 52)"/><ellipse cx="20" cy="73" rx="9" ry="8" fill="#ec4899"/><ellipse cx="40" cy="73" rx="9" ry="8" fill="#ec4899"/><circle cx="20" cy="74" r="4" fill="#fbcfe8"/><circle cx="40" cy="74" r="4" fill="#fbcfe8"/><ellipse cx="30" cy="54" rx="17" ry="19" fill="url(#bg3)"/><ellipse cx="30" cy="57" rx="10" ry="12" fill="#fdf2f8"/><circle cx="30" cy="27" r="19" fill="url(#bg3)"/><ellipse cx="30" cy="33" rx="8" ry="6" fill="#fdf2f8"/><circle cx="23" cy="24" r="2.4" fill="#4a1d3d"/><circle cx="37" cy="24" r="2.4" fill="#4a1d3d"/><ellipse cx="30" cy="31" rx="3" ry="2" fill="#4a1d3d"/><path d="M27 36 Q30 39 33 36" stroke="#4a1d3d" stroke-width="1.3" fill="none"/><path d="M30 45 l-8 -5 v10 z M30 45 l8 -5 v10 z" fill="#a855f7"/><circle cx="30" cy="45" r="2.5" fill="#7c3aed"/></svg></button>
+<div id="pg"><div class="pgh"><button data-pgx="back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button><b id="pgT"></b></div><div id="pgB"></div></div>
+<div id="modal"><div class="panel" id="mp"></div></div>
+<div id="toast"></div>
+
+<div id="sheet"><div class="panel"><h2 style="margin-bottom:8px">🛍️ سلتك</h2><div id="items"></div>
+<div class="drow" id="dr"><span>الخصم</span><span id="dsum"></span></div><div id="gift"></div>
+<div class="total"><span>الإجمالي</span><span id="sum">0 ج.م</span></div>
+<button class="buy" id="buy">اطلب عبر واتساب 💬</button></div></div>
+
+<nav>
+  <button class="on" data-t="home"><span>🏠</span>الرئيسية</button>
+  <button data-t="fav"><span>❤️</span>المفضلة</button>
+  <button data-t="cart"><span>🛒</span>السلة</button>
+</nav>
+
+<script>
+// ===== بيانات المنتجات: عدّل هنا الأسماء والأسعار =====
+var WHATSAPP = "201099461822"; // رقم الواتساب للطلبات (بصيغة دولية بدون صفر)
+var WA_SHOW = "00201099461822"; // الرقم كما يظهر للعميل
+// ===== روابط التواصل: استبدل الروابط التالية بروابط صفحاتك الحقيقية =====
+var LINKS = {fb:"https://facebook.com/yourpage",ig:"https://instagram.com/yourpage",x:"https://x.com/yourpage",yt:"https://youtube.com/@yourchannel"};
+var NAMES = {fb:"فيسبوك",ig:"انستغرام",x:"إكس (X)",yt:"يوتيوب"};
+// ===== صفحة الهدايا والخصومات (الدبدوب): عدّل النصوص كما تشاء =====
+var OFFERS = [
+ {h:"٣٠٠ ج.م فأكثر",t:"خصم ١٠٪ على طلبك 🎉"},
+ {h:"٦٠٠ ج.م فأكثر",t:"خصم ١٥٪ + هدية مجانية 🎀"},
+ {h:"١٠٠٠ ج.م فأكثر",t:"خصم ٢٠٪ + شحن مجاني + هدية فاخرة 🧸"}
+];
+// ===== وصف كل منتج ومميزاته (الرقم هو id المنتج): t = الوصف، f = المميزات =====
+var INFO = {
+1:{t:"مزهرية نحاسية تجمع بين فخامة المعدن ورقي النقوش الشرقية، تمنح بيتك حضوراً تراثياً راقياً.",f:["نحاس عالي الجودة","نقوش شرقية دقيقة","تصلح للورد الطبيعي والصناعي"]},
+2:{t:"ساعة بتصميم كلاسيكي عريق تحمل عبق الماضي، قطعة تتوسط الجدار أو الرف وتلفت الأنظار.",f:["طراز أنتيك أصيل","حركة هادئة ودقيقة","ديكور وهدية فاخرة"]},
+3:{t:"تمثال خزفي مرسوم بعناية بألوان هادئة، يضيف لمسة فنية أنيقة لأي ركن في المنزل.",f:["خزف متين","رسم يدوي دقيق","يناسب المكتب والصالون"]},
+4:{t:"صندوق خشبي منقوش يحفظ مجوهراتك وذكرياتك الغالية داخل تصميم دافئ وأنيق.",f:["خشب متين","زخارف منقوشة","مساحة واسعة للحفظ"]},
+5:{t:"صندوق هدايا جاهز بتغليف أنيق وشريط ملون وبطاقة إهداء، يوفر عليك عناء التغليف.",f:["تغليف جاهز للإهداء","بطاقة إهداء مرفقة","يناسب كل المناسبات"]},
+6:{t:"شمعة عطرية برائحة الفانيليا الدافئة تملأ المكان بالهدوء والراحة وتصنع أجواءً رومانسية.",f:["رائحة فانيليا ناعمة","احتراق بطيء ونظيف","هدية مثالية للأحبة"]},
+7:{t:"دب قطيفة ناعم وكبير الحجم، رفيق مثالي يدخل الفرحة على قلوب الصغار والكبار.",f:["قطيفة ناعمة وآمنة","حجم كبير للعناق","لون جذاب"]},
+8:{t:"باقة ورد صناعي بألوان مبهجة تبقى نضرة طوال العام دون ماء أو عناية.",f:["لا تذبل أبداً","ألوان زاهية","بدون أي عناية"]},
+9:{t:"حامل صور أكليرك شفاف بتصميم عصري يعرض أجمل لحظاتك بوضوح وأناقة.",f:["أكليرك شفاف وصلب","تصميم عصري خفيف","يناسب المكتب والرف"]},
+10:{t:"لوحة أكليرك تُنفَّذ بالاسم الذي تريده مع إضاءة جذابة، هدية شخصية لا تُنسى.",f:["كتابة بالاسم المطلوب","إضاءة هادئة جميلة","تصميم مميز لكل شخص"]},
+11:{t:"علبة أكليرك شفافة تنظم المكياج والإكسسوارات وتعرضها بترتيب أنيق.",f:["شفافة تظهر المحتويات","خانات عملية","سهلة التنظيف"]},
+12:{t:"ميدالية أكليرك تُطبع عليها صورتك أو اسمك، قطعة صغيرة بذكرى كبيرة.",f:["طباعة عالية الجودة","خفيفة ومتينة","هدية صغيرة مميزة"]},
+13:{t:"قالب سيليكون مرن لصناعة الشموع والصابون يدوياً بأشكال جميلة وسهولة تامة.",f:["سيليكون مرن وآمن","فك سهل بدون كسر","يُستخدم مرات عديدة"]},
+14:{t:"جراب سيليكون ناعم الملمس بألوان زاهية، يحمي هاتفك من الصدمات والخدوش بأناقة.",f:["ملمس ناعم ومريح","حماية من الصدمات","ألوان متعددة"]},
+15:{t:"حصيرة سيليكون مقاومة للحرارة تحمي سطح مطبخك وتسهّل التنظيف بعد الطهي.",f:["مقاومة للحرارة","غير لاصقة","تُغسل بسهولة"]},
+16:{t:"فرشاة سيليكون ناعمة تنظف بشرتك بلطف وتمنحك نضارة يومية.",f:["شعيرات سيليكون ناعمة","تنظيف عميق ولطيف","سهلة التجفيف"]},
+17:{t:"مج سحري تظهر عليه الصورة أو العبارة عند صب المشروب الساخن، مفاجأة تدهش من يتلقاها.",f:["تظهر الصورة بالحرارة","طباعة بصورتك المفضلة","هدية غير تقليدية"]},
+18:{t:"مج سيراميك يحمل اسمك بخط جميل، يجعل قهوتك الصباحية أكثر خصوصية.",f:["سيراميك عالي الجودة","طباعة تتحمل الغسيل","اسم بخط مميز"]},
+19:{t:"مج حراري عملي يحتفظ بحرارة مشروبك لساعات، رفيق ممتاز للعمل والسفر.",f:["عزل حراري ممتاز","غطاء محكم","متين وخفيف"]},
+20:{t:"طقم مج أنيق مع علبة هدية جاهزة، اختيار موفق للأهل والأصدقاء.",f:["مجان بتصميم متناسق","علبة هدية فاخرة","جاهز للإهداء"]}
+};
+// الصورة: تظهر الأيقونة تلقائياً. لوضع صورة حقيقية أضف داخل سطر المنتج: img:"images/vase.jpg"
+function pic(p){return p.img?'<img src="'+p.img+'" alt="" style="width:100%;height:100%;object-fit:cover">':p.e}
+function showM(h){document.getElementById("mp").innerHTML=h+'<button class="chip" data-x="1" style="width:100%;margin-top:10px">إغلاق</button>';document.getElementById("modal").classList.add("open")}
+function closeM(){document.getElementById("modal").classList.remove("open")}
+function showDetail(id){
+ var p=P.filter(function(x){return x.id==id})[0];
+ var i=INFO[id]||{t:"اكتب هنا وصفاً جميلاً للمنتج.",f:["ميزة أولى","ميزة ثانية","ميزة ثالثة"]};
+ showM('<div class="pic big" style="background:'+p.bg+'">'+pic(p)+'</div><h2>'+p.n+'</h2><div class="price" style="margin:4px 0 8px">'+money(p.p)+'</div><p style="line-height:1.9;font-size:14px">'+i.t+'</p><ul class="feat">'+i.f.map(function(x){return '<li>✨ <span>'+x+'</span></li>'}).join("")+'</ul><button class="buy" data-ad="'+id+'" style="margin-top:12px">أضف إلى السلة 🛒</button>'+revHtml(id));
+}
+function showOffers(){
+ showM('<h2>🎁 هدايا وخصومات</h2><p style="color:var(--muted);font-size:13px;margin:4px 0 10px">كلما زادت مشترياتك زادت هداياك:</p>'+OFFERS.map(function(o){return '<div class="offer"><b>'+o.h+'</b><span>'+o.t+'</span></div>'}).join(""));
+}
+function showSocialOld(k){
+ var s='display:block;text-align:center;text-decoration:none;margin-top:8px',h;
+ if(k==="wa"){h='<h2>💬 واتساب</h2><p style="margin:10px 0;font-size:20px;font-weight:700;direction:ltr;text-align:center">'+WA_SHOW+'</p><a class="buy" style="'+s+'" target="_blank" rel="noopener" href="https://wa.me/'+WHATSAPP+'">فتح المحادثة</a>'}
+ else{h='<h2>'+NAMES[k]+'</h2><p style="margin:10px 0;direction:ltr;text-align:center;word-break:break-all">'+LINKS[k]+'</p><a class="buy" style="'+s+'" target="_blank" rel="noopener" href="'+LINKS[k]+'">فتح الرابط</a>'}
+ showM(h);
+}
+// n = اسم المنتج | d = الجملة التي تظهر تحته | p = السعر | c = القسم | e = الأيقونة | bg = لون الخلفية
+var P = [
+ // ===== قسم: تحف =====
+ {id:1,n:"مزهرية نحاسية",d:"مزهرية نحاسية فاخرة بنقوش شرقية تزين ركن بيتك",p:450,c:"تحف",e:"🏺",bg:"#fde68a"},
+ {id:2,n:"ساعة أنتيكة",d:"ساعة كلاسيكية بطابع قديم تضيف لمسة تراثية",p:900,c:"تحف",e:"🕰️",bg:"#fde68a"},
+ {id:3,n:"تمثال خزفي",d:"تمثال خزفي مرسوم يدوياً بألوان هادئة",p:380,c:"تحف",e:"🗿",bg:"#fde68a"},
+ {id:4,n:"صندوق خشبي مزخرف",d:"صندوق خشبي منقوش لحفظ المجوهرات والذكريات",p:260,c:"تحف",e:"📦",bg:"#fde68a"},
+ // ===== قسم: هدايا =====
+ {id:5,n:"صندوق هدايا",d:"صندوق هدايا جاهز مع شريط وبطاقة إهداء",p:150,c:"هدايا",e:"🎁",bg:"#ddd6fe"},
+ {id:6,n:"شمعة عطرية",d:"شمعة برائحة الفانيليا تمنح البيت دفئاً وهدوءاً",p:95,c:"هدايا",e:"🕯️",bg:"#ddd6fe"},
+ {id:7,n:"دب قطيفة",d:"دب ناعم كبير هدية تفرح الصغار والكبار",p:210,c:"هدايا",e:"🧸",bg:"#ddd6fe"},
+ {id:8,n:"باقة ورد صناعي",d:"باقة ورد دائمة لا تذبل بألوان مبهجة",p:130,c:"هدايا",e:"💐",bg:"#ddd6fe"},
+ // ===== قسم: اكليرك =====
+ {id:9,n:"حامل صور اكليرك",d:"حامل صور شفاف بتصميم عصري يحفظ أجمل لحظاتك",p:85,c:"اكليرك",e:"🖼️",bg:"#bae6fd"},
+ {id:10,n:"لوحة اسم مضيئة",d:"لوحة اكليرك بالاسم الذي تريده مع إضاءة جميلة",p:240,c:"اكليرك",e:"✨",bg:"#bae6fd"},
+ {id:11,n:"علبة تنظيم",d:"علبة شفافة لترتيب المكياج والإكسسوارات بأناقة",p:120,c:"اكليرك",e:"🗃️",bg:"#bae6fd"},
+ {id:12,n:"ميدالية مطبوعة",d:"ميدالية مطبوع عليها صورتك أو اسمك",p:45,c:"اكليرك",e:"🔑",bg:"#bae6fd"},
+ // ===== قسم: سيليكون =====
+ {id:13,n:"قالب صابون وشموع",d:"قالب سيليكون لصنع الشموع والصابون بيدك",p:70,c:"سيليكون",e:"🧼",bg:"#bbf7d0"},
+ {id:14,n:"جراب موبايل",d:"جراب ناعم بألوان زاهية يحمي هاتفك من الصدمات",p:55,c:"سيليكون",e:"📱",bg:"#bbf7d0"},
+ {id:15,n:"حصيرة مطبخ",d:"حصيرة مقاومة للحرارة وسهلة التنظيف",p:90,c:"سيليكون",e:"🍳",bg:"#bbf7d0"},
+ {id:16,n:"فرشاة تنظيف الوجه",d:"فرشاة ناعمة لتنظيف البشرة بلطف كل يوم",p:65,c:"سيليكون",e:"💄",bg:"#bbf7d0"},
+ // ===== قسم: مج =====
+ {id:17,n:"مج سحري",d:"مج تظهر عليه صورتك عند وضع المشروب الساخن",p:110,c:"مج",e:"☕",bg:"#fbcfe8"},
+ {id:18,n:"مج بالاسم",d:"مج سيراميك مطبوع عليه اسمك بخط جميل",p:80,c:"مج",e:"🍵",bg:"#fbcfe8"},
+ {id:19,n:"مج حراري",d:"مج يحافظ على حرارة مشروبك لساعات طويلة",p:160,c:"مج",e:"🥤",bg:"#fbcfe8"},
+ {id:20,n:"طقم مج هدية",d:"طقم مج مع علبة هدية أنيقة جاهزة للإهداء",p:190,c:"مج",e:"🎀",bg:"#fbcfe8"},
+ // ===== قسم: سكوب (عدّل الأسماء والجمل والأسعار) =====
+ {id:21,n:"منتج سكوب ١",d:"اكتب هنا جملة تصف المنتج الأول",p:100,c:"سكوب",e:"⭐",bg:"#fed7aa"},
+ {id:22,n:"منتج سكوب ٢",d:"اكتب هنا جملة تصف المنتج الثاني",p:100,c:"سكوب",e:"🌟",bg:"#fed7aa"},
+ {id:23,n:"منتج سكوب ٣",d:"اكتب هنا جملة تصف المنتج الثالث",p:100,c:"سكوب",e:"💫",bg:"#fed7aa"},
+ {id:24,n:"منتج سكوب ٤",d:"اكتب هنا جملة تصف المنتج الرابع",p:100,c:"سكوب",e:"🎉",bg:"#fed7aa"}
+];
+var CATS = ["الكل","تحف","هدايا","اكليرك","سيليكون","مج","سكوب"];
+var cat="الكل", tab="home", cart={}, favs={};
+var TIERS=[{min:1000,pct:20,i:2},{min:600,pct:15,i:1},{min:300,pct:10,i:0}];
+function tierFor(s){for(var k=0;k<TIERS.length;k++)if(s>=TIERS[k].min)return TIERS[k];return null}
+var TT=0;function toast(m){var e=document.getElementById("toast");e.textContent=m;e.classList.add("on");clearTimeout(TT);TT=setTimeout(function(){e.classList.remove("on")},1600)}
+function openUrl(u){var a=document.createElement("a");a.href=u;a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove()}
+
+function money(x){return L==="en"?x.toLocaleString("en-US")+" EGP":x.toLocaleString("ar-EG")+" ج.م"}
+function render(){
+  var q=document.getElementById("q").value.trim();
+  document.getElementById("chips").innerHTML=CATS.map(function(c){
+    return '<button class="chip'+(c===cat?' on':'')+'" data-c="'+c+'">'+c+'</button>'}).join("");
+  var list=P.filter(function(p){
+    return (cat==="الكل"||p.c===cat)&&(!q||(p.n+p.d+(EN[p.id]?EN[p.id].n+EN[p.id].d:"")).toLowerCase().indexOf(q.toLowerCase())>-1)&&(tab!=="fav"||favs[p.id])});
+  document.getElementById("grid").innerHTML=list.length?list.map(function(p){
+    return '<div class="card" data-d="'+p.id+'"><div class="pic" style="background:'+p.bg+'">'+pic(p)+
+    '<button class="heart" data-f="'+p.id+'">'+(favs[p.id]?'❤️':'🤍')+'</button></div>'+
+    '<div class="info"><div class="name">'+p.n+'</div><div class="desc">'+p.d+'</div>'+
+    '<div class="row"><span class="price">'+money(p.p)+'</span><button class="add" data-i="'+p.id+'" aria-label="التفاصيل والتقييمات">+</button></div></div></div>'
+  }).join(""):'<div class="empty">لا توجد نتائج هنا بعد 🌸</div>';
+  var n=0,s=0,h="";
+  P.forEach(function(p){var k=cart[p.id]||0;if(k){n+=k;s+=k*p.p;
+    h+='<div class="item"><span class="e">'+p.e+'</span><span class="n">'+p.n+'<br><small style="color:var(--muted)">'+money(p.p)+'</small></span>'+
+    '<span class="qty"><button data-m="'+p.id+'">−</button><b>'+k+'</b><button data-a="'+p.id+'">+</button></span></div>'}});
+  document.getElementById("items").innerHTML=h||'<div class="empty">السلة فارغة</div>';
+  document.getElementById("badge").textContent=n;
+  var tr=tierFor(s),ds=tr?Math.round(s*tr.pct/100):0;
+  document.getElementById("dr").classList.toggle("on",!!tr);
+  document.getElementById("dsum").textContent=tr?"−"+money(ds)+" ("+num(tr.pct)+(L==="en"?"%":"٪")+")":"";
+  var g=document.getElementById("gift");g.classList.toggle("on",!!tr);g.textContent=tr?OFFERS[tr.i].t:"";
+  document.getElementById("sum").textContent=money(s-ds);
+}
+document.addEventListener("click",function(e){
+  var t=e.target, a=t.dataset;
+  if(a.c){cat=a.c}
+  else if(a.a){cart[a.a]=(cart[a.a]||0)+1;if(!document.getElementById("sheet").classList.contains("open"))toast("تمت الإضافة إلى السلة ✓")}
+  else if(a.m){cart[a.m]=Math.max(0,(cart[a.m]||0)-1)}
+  else if(a.f){favs[a.f]=!favs[a.f]}
+  else if(t.closest("[data-d]")&&!t.closest(".heart")){showDetail(t.closest("[data-d]").dataset.d);return}
+  else if(a.ad){cart[a.ad]=(cart[a.ad]||0)+1;closeM();toast("تمت الإضافة إلى السلة ✓")}
+  else if(t.closest("[data-s]")){showSocial(t.closest("[data-s]").dataset.s);return}
+  else if(a.x||t.id==="modal"){closeM();return}
+  else if(t.closest("#bear")){if(!bearDrag){showOffers()}return}
+  else if(t.id==="cartBtn"||t.closest("#cartBtn")){document.getElementById("sheet").classList.add("open")}
+  else if(t.id==="sheet"){t.classList.remove("open")}
+  else if(t.closest("nav button")){
+    var b=t.closest("nav button");tab=b.dataset.t;
+    document.querySelectorAll("nav button").forEach(function(x){x.classList.toggle("on",x===b)});
+    if(tab==="cart"){document.getElementById("sheet").classList.add("open");tab="home";
+      document.querySelectorAll("nav button").forEach(function(x){x.classList.toggle("on",x.dataset.t==="home")})}
+  }
+  else if(t.id==="buy"){
+    var en=L==="en",msg=en?"Hello, I would like to order:\n":"مرحباً، أريد طلب:\n",s=0;
+    P.forEach(function(p){var k=cart[p.id]||0;if(k){msg+="• "+(en&&EN[p.id]?EN[p.id].n:p.n)+" × "+k+"\n";s+=k*p.p}});
+    var url;
+    if(!s){msg=en?"Hello, I would like to ask about your products":"مرحباً، أريد الاستفسار عن منتجاتكم 🌸"}else{var tr2=tierFor(s),d2=tr2?Math.round(s*tr2.pct/100):0;if(d2)msg+=en?"Discount ("+tr2.pct+"%): -"+d2+" EGP\n":"الخصم ("+tr2.pct+"٪): -"+d2+" ج.م\n";msg+=en?"Total: "+(s-d2)+" EGP":"الإجمالي: "+(s-d2)+" ج.م"}
+    recOrder();url="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(msg);
+    openUrl(url)
+  }
+  render();
+});
+document.getElementById("q").addEventListener("input",render);
+function closePops(){document.querySelectorAll(".pop").forEach(function(x){x.classList.remove("on")})}
+function showSocial(k){
+ var p=document.getElementById("pop-"+k),was=p.classList.contains("on");
+ closePops();if(was)return;
+ p.innerHTML=k==="wa"?'<a target="_blank" rel="noopener" href="https://wa.me/'+WHATSAPP+'">'+WA_SHOW+'</a>':'<a target="_blank" rel="noopener" href="'+LINKS[k]+'">'+LINKS[k]+'</a>';
+ var btn=document.querySelector('[data-s="'+k+'"]').getBoundingClientRect();
+ p.classList.add("on");
+ var w=p.offsetWidth,h=p.offsetHeight,onLeft=btn.left<window.innerWidth/2;
+ var l=onLeft?Math.min(btn.right+10,window.innerWidth-w-8):Math.max(8,btn.left-w-10);
+ p.style.left=l+"px";p.style.top=(btn.top+btn.height/2-h/2)+"px";p.style.bottom="auto";p.style.transformOrigin=onLeft?"0% 50%":"100% 50%";
+}
+document.addEventListener("click",function(e){if(!e.target.closest("[data-s],.pop"))closePops()});
+// سحب الدبدوب يميناً ويساراً
+(function(){var l=document.getElementById("logo"),t=l.textContent;l.innerHTML=t.split("").map(function(c,i){return '<span style="animation-delay:'+(i*0.12)+'s">'+(c===" "?"&nbsp;":c)+'</span>'}).join("")})();
+(function(){
+ var m={wa:"https://wa.me/"+WHATSAPP,fb:LINKS.fb,ig:LINKS.ig,x:LINKS.x,yt:LINKS.yt};
+ for(var k in m){document.getElementById("f-"+k).href=m[k]}
+})();
+window.addEventListener("scroll",closePops,{passive:true});
+// ===== التسجيل وتسجيل الدخول =====
+// لإرسال الرمز فعلياً إلى Gmail املأ بيانات EmailJS هنا (تعمل عند رفع الموقع على استضافتك)
+var EMAILJS={service:"",template:"",key:""};
+var ACC={},ME=null,PEND=null;
+try{ACC=JSON.parse(localStorage.getItem("mg_accs")||"{}")}catch(e){}
+function saveAcc(){try{localStorage.setItem("mg_accs",JSON.stringify(ACC))}catch(e){}}
+function hsh(s){try{return crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)).then(function(b){return Array.from(new Uint8Array(b)).map(function(x){return ("0"+x.toString(16)).slice(-2)}).join("")})}catch(e){return Promise.resolve(btoa(unescape(encodeURIComponent(s))))}}
+function msgBox(t,ok){var m=document.getElementById("a-m");if(m){m.textContent=t;m.className="amsg"+(ok?" ok":"")}}
+function val(id){return document.getElementById(id).value.trim()}
+function menuRender(){
+ document.getElementById("menu").innerHTML=ME?'<button data-au="logout">تسجيل الخروج</button>':'<button data-au="login">تسجيل الدخول</button><button data-au="reg">التسجيل</button>';
+ document.getElementById("hello").textContent=ME?(L==="en"?"Hi, ":"أهلاً ")+ME.first:"";
+}
+var L='ar',TH=null,XP=0;
+var EN={
+1:{n:'Copper Vase',d:'A luxurious copper vase with oriental engravings to adorn your home corner',t:'A copper vase that blends the luxury of metal with refined oriental engravings, giving your home an elegant heritage presence.',f:['High-quality copper','Fine oriental engravings','Fits natural and artificial flowers']},
+2:{n:'Antique Clock',d:'A classic vintage clock that adds a touch of heritage',t:'A classic clock with timeless character, a centerpiece for any wall or shelf that catches every eye.',f:['Authentic antique style','Quiet, accurate movement','Decor piece and luxury gift']},
+3:{n:'Ceramic Statue',d:'A hand-painted ceramic statue in calm colors',t:'A carefully painted ceramic statue in calm colors that adds an elegant artistic touch to any corner of your home.',f:['Durable ceramic','Fine hand painting','Suits office and living room']},
+4:{n:'Decorated Wooden Box',d:'An engraved wooden box for jewelry and memories',t:'An engraved wooden box that keeps your jewelry and precious memories in a warm, elegant design.',f:['Solid wood','Engraved ornaments','Roomy storage space']},
+5:{n:'Gift Box',d:'A ready gift box with a ribbon and a gift card',t:'A ready-made gift box with elegant wrapping, a colorful ribbon and a gift card, saving you the trouble of wrapping.',f:['Ready-to-gift wrapping','Gift card included','Suits every occasion']},
+6:{n:'Scented Candle',d:'A vanilla candle that fills your home with warmth and calm',t:'A scented vanilla candle that fills the place with calm and warmth and creates a romantic atmosphere.',f:['Soft vanilla scent','Slow, clean burn','A perfect gift for loved ones']},
+7:{n:'Plush Teddy Bear',d:'A big soft bear that delights kids and grown-ups',t:'A soft, large plush bear, the perfect companion that brings joy to young and old.',f:['Soft, safe plush','Big size for hugs','Attractive color']},
+8:{n:'Artificial Flower Bouquet',d:'An everlasting bouquet that never wilts, in cheerful colors',t:'An artificial bouquet in cheerful colors that stays fresh all year without water or care.',f:['Never wilts','Bright colors','No care needed']},
+9:{n:'Acrylic Photo Stand',d:'A clear acrylic photo stand with a modern design',t:'A transparent acrylic photo stand with a modern design that displays your best moments clearly and elegantly.',f:['Clear, rigid acrylic','Light modern design','Fits desk and shelf']},
+10:{n:'Illuminated Name Sign',d:'An acrylic sign with the name you want and a lovely light',t:'An acrylic sign made with the name you choose and attractive lighting, an unforgettable personal gift.',f:['Written with your chosen name','Soft, beautiful lighting','A unique design for everyone']},
+11:{n:'Organizer Box',d:'A clear box to organize makeup and accessories neatly',t:'A transparent acrylic box that organizes makeup and accessories and displays them in an elegant order.',f:['Clear, shows contents','Practical compartments','Easy to clean']},
+12:{n:'Printed Keychain',d:'A keychain printed with your photo or name',t:'An acrylic keychain printed with your photo or name, a small piece with a big memory.',f:['High-quality printing','Light and durable','A special small gift']},
+13:{n:'Soap and Candle Mold',d:'A silicone mold for making candles and soap by hand',t:'A flexible silicone mold for making candles and soap by hand in beautiful shapes, with total ease.',f:['Flexible, safe silicone','Easy release, no breaking','Reusable many times']},
+14:{n:'Phone Case',d:'A soft case in bright colors that protects your phone',t:'A soft-touch silicone case in bright colors that protects your phone from shocks and scratches in style.',f:['Soft, comfortable feel','Shock protection','Many colors']},
+15:{n:'Kitchen Mat',d:'A heat-resistant silicone mat that is easy to clean',t:'A heat-resistant silicone mat that protects your kitchen surface and makes cleanup easy after cooking.',f:['Heat resistant','Non-stick','Easy to wash']},
+16:{n:'Face Cleansing Brush',d:'A soft brush to cleanse your skin gently every day',t:'A soft silicone brush that cleanses your skin gently and gives you a daily glow.',f:['Soft silicone bristles','Deep, gentle cleansing','Easy to dry']},
+17:{n:'Magic Mug',d:'A mug that shows your photo when a hot drink is poured',t:'A magic mug that reveals the picture or phrase when a hot drink is poured, a surprise that amazes its receiver.',f:['Image appears with heat','Printed with your favorite photo','An unconventional gift']},
+18:{n:'Named Mug',d:'A ceramic mug printed with your name in beautiful script',t:'A ceramic mug carrying your name in lovely script, making your morning coffee more personal.',f:['High-quality ceramic','Wash-resistant print','A distinctive name font']},
+19:{n:'Thermal Mug',d:'A mug that keeps your drink hot for many hours',t:'A practical thermal mug that keeps your drink at its temperature for hours, an excellent companion for work and travel.',f:['Excellent insulation','Tight lid','Durable and light']},
+20:{n:'Gift Mug Set',d:'A mug set with an elegant ready-to-gift box',t:'An elegant mug set with a ready gift box, a great choice for family and friends.',f:['Two matching mugs','Luxury gift box','Ready to gift']}
+};
+var UI=[['الكل','All'],['تحف','Antiques'],['هدايا','Gifts'],['اكليرك','Acrylic'],['سيليكون','Silicone'],['مج','Mugs'],['سكوب','Scoop'],
+['أجمل التحف والهدايا لأحبابك','The finest antiques and gifts for your loved ones'],['ابحث عن هدية أو تحفة…','Search for a gift or antique…'],['تصفح حسب الفئة','Browse by Category'],
+['الرئيسية','Home'],['المفضلة','Favorites'],['السلة','Cart'],['🛍️ سلتك','🛍️ Your Cart'],['السلة فارغة','Your cart is empty'],['الإجمالي','Total'],['اطلب عبر واتساب 💬','Order via WhatsApp 💬'],
+['لا توجد نتائج هنا بعد 🌸','No results here yet 🌸'],['إغلاق','Close'],['أضف إلى السلة 🛒','Add to Cart 🛒'],
+['🎁 هدايا وخصومات','🎁 Gifts and Discounts'],['كلما زادت مشترياتك زادت هداياك:','The more you buy, the more gifts you get:'],
+['تواصل معنا','Contact Us'],['تابعنا على وسائل التواصل الاجتماعي','Follow us on social media'],['حقوق النشر محفوظة © 2026 My Gallery','© 2026 My Gallery. All rights reserved.'],
+['تسجيل الدخول','Log In'],['التسجيل','Register'],['تسجيل الخروج','Log Out'],['الحساب (Gmail)','Account (Gmail)'],['كلمة المرور','Password'],['دخول','Log In'],['الاسم الأول','First name'],['اسم العائلة','Last name'],['الحساب user name (Gmail)','Username (Gmail)'],['تأكيد كلمة المرور','Confirm password'],['تسجيل','Register'],
+['تأكيد الحساب','Verify Account'],['أرسلنا رمز التأكيد إلى','We sent the confirmation code to'],['تأكيد','Confirm'],['أدخل الرمز المكوّن من 6 أرقام','Enter the 6-digit code'],['وضع تجريبي: لم يُضبط الإرسال بعد. نص الرسالة:','Demo mode: sending is not set up yet. Message text:'],
+['الحساب غير موجود، سجّل أولاً','Account not found, please register first'],['كلمة المرور غير صحيحة','Incorrect password'],['من فضلك املأ كل الخانات','Please fill in all fields'],['اكتب حساب Gmail صحيحاً مثل name@gmail.com','Enter a valid Gmail account like name@gmail.com'],['كلمة المرور 6 أحرف على الأقل','Password must be at least 6 characters'],['تأكيد كلمة المرور غير مطابق','Passwords do not match'],['هذا الحساب مسجّل من قبل، سجّل الدخول','This account is already registered, please log in'],['جارٍ إرسال الرمز…','Sending the code…'],['تعذّر إرسال الرمز، حاول لاحقاً','Could not send the code, try again later'],['الرمز غير صحيح','Incorrect code'],
+['منتج سكوب ١','Scoop Product 1'],['منتج سكوب ٢','Scoop Product 2'],['منتج سكوب ٣','Scoop Product 3'],['منتج سكوب ٤','Scoop Product 4'],['اكتب هنا جملة تصف المنتج الأول','Write a sentence describing the first product here'],['اكتب هنا جملة تصف المنتج الثاني','Write a sentence describing the second product here'],['اكتب هنا جملة تصف المنتج الثالث','Write a sentence describing the third product here'],['اكتب هنا جملة تصف المنتج الرابع','Write a sentence describing the fourth product here'],['اكتب هنا وصفاً جميلاً للمنتج.','Write a nice description of the product here.'],['ميزة أولى','First feature'],['ميزة ثانية','Second feature'],['ميزة ثالثة','Third feature']];
+var OFE=[['300 EGP or more','10% off your order 🎉'],['600 EGP or more','15% off + a free gift 🎀'],['1000 EGP or more','20% off + free shipping + a luxury gift 🧸']];
+var D={};
+UI.forEach(function(x){D[x[0]]=x[1]});
+P.forEach(function(p){var e=EN[p.id],i=INFO[p.id];if(e){D[p.n]=e.n;D[p.d]=e.d;if(i){D[i.t]=e.t;i.f.forEach(function(x,k){D[x]=e.f[k]})}}});
+OFFERS.forEach(function(o,i){D[o.h]=OFE[i][0];D[o.t]=OFE[i][1]});
+function xlate(){
+ var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),n,s,t,v;
+ while(n=w.nextNode()){
+  if(n.parentNode.nodeName==="SCRIPT"||n.parentNode.nodeName==="STYLE")continue;
+  s=n.nodeValue;t=s.trim();if(!t)continue;v=D[t];
+  if(v!==undefined){if(n.__o===undefined)n.__o=s;n.nodeValue=s.replace(t,v)}
+ }
+ document.querySelectorAll("[placeholder]").forEach(function(el){if(el.__p===undefined)el.__p=el.placeholder;if(D[el.__p])el.placeholder=D[el.__p]});
+}
+function unx(){
+ var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),n;
+ while(n=w.nextNode()){if(n.__o!==undefined){n.nodeValue=n.__o;n.__o=undefined}}
+ document.querySelectorAll("[placeholder]").forEach(function(el){if(el.__p!==undefined)el.placeholder=el.__p});
+}
+function setLang(l){
+ L=l;var h=document.documentElement;h.lang=l;h.dir=l==="en"?"ltr":"rtl";
+ closeM();closePops();
+ if(l==="ar")unx();
+ render();menuRender();
+ document.getElementById("langBtn").textContent=l==="en"?"ع":"EN";
+ if(l==="en")xlate();
+}
+new MutationObserver(function(){if(L==="en"&&!XP){XP=1;requestAnimationFrame(function(){XP=0;if(L==="en")xlate()})}}).observe(document.body,{childList:true,subtree:true,characterData:true});
+var MOON='<svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+var SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>';
+function toggleTheme(){
+ var dark=TH?TH==="dark":(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches);
+ TH=dark?"light":"dark";document.documentElement.setAttribute("data-theme",TH);
+ document.getElementById("themeBtn").innerHTML=TH==="dark"?SUN:MOON;
+}
+try{if(matchMedia("(prefers-color-scheme: dark)").matches)document.getElementById("themeBtn").innerHTML=SUN}catch(e){}
+// ===== تصاميم اللوجو (مؤقتة للمعاينة: اضغط على اللوجو لتتنقل بينها) =====
+var LI=0;
+var LOGOS=[
+'<svg viewBox="0 0 32 32" width="30" height="30"><defs><linearGradient id="l1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset=".55" stop-color="#ec4899"/><stop offset="1" stop-color="#f59e0b"/></linearGradient></defs><rect x="2" y="4" width="28" height="24" rx="6" fill="url(#l1)"/><circle cx="11" cy="12" r="3" fill="#fff"/><path d="M4 25l9-9 5 5 4-4 8 8z" fill="#fff" fill-opacity=".92"/></svg><b>My Gallery</b>',
+'<span style="font:400 25px Lalezar,Cairo,sans-serif;white-space:nowrap"><span style="color:#7c3aed">My</span> <span style="color:#ec4899">Gallery</span><span style="color:#f59e0b;font-size:14px"> ✦</span></span>',
+'<svg viewBox="0 0 32 32" width="26" height="26"><defs><linearGradient id="l3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="#d97706"/></linearGradient></defs><path d="M16 3l11 8-11 18L5 11z" fill="url(#l3)"/><path d="M5 11h22M11 11l5-8 5 8M11 11l5 18 5-18" stroke="#fff" stroke-opacity=".75" fill="none"/></svg><span style="display:flex;flex-direction:column;line-height:1.05"><span style="font:800 12px Cairo,sans-serif;letter-spacing:1.5px;color:#1e1b4b">MY GALLERY</span><span style="font:600 7px Cairo,sans-serif;letter-spacing:1.5px;color:#b45309">ANTIQUES &amp; GIFTS</span></span>',
+'<svg viewBox="0 0 32 32" width="28" height="28"><rect x="4" y="13" width="24" height="15" rx="3" fill="#ec4899"/><rect x="3" y="9" width="26" height="6" rx="2" fill="#f472b6"/><rect x="14" y="9" width="4" height="19" fill="#fde68a"/><path d="M16 9c-5-6-10-1-6 1zM16 9c5-6 10-1 6 1z" fill="none" stroke="#fde68a" stroke-width="2"/></svg><span style="font:400 22px Lalezar,Cairo,sans-serif;color:#be185d;white-space:nowrap">My Gallery</span>',
+'<span style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;display:flex;align-items:center;justify-content:center;font:400 15px Lalezar,Cairo,sans-serif;flex:none">MG</span><span style="display:flex;flex-direction:column;line-height:1.05"><span style="font:400 19px Lalezar,Cairo,sans-serif;color:#2b1840">My Gallery</span><span style="font:600 8px Cairo,sans-serif;color:#7a6a8c;letter-spacing:.5px">Antiques &amp; Gifts</span></span>',
+'<svg viewBox="0 0 32 32" width="26" height="30"><path d="M12 3h8v3l-2 3c5 3 7 8 6 13-1 5-4 7-8 7s-7-2-8-7c-1-5 1-10 6-13l-2-3z" fill="#d97706"/><path d="M10 17c4 2 8 2 12 0" stroke="#fde68a" stroke-width="1.6" fill="none"/></svg><span style="display:flex;flex-direction:column;line-height:1"><span style="font:400 22px Lalezar,Cairo,sans-serif;color:#2b1840;white-space:nowrap">My Gallery</span><span style="height:2px;background:linear-gradient(90deg,#d97706,transparent);border-radius:2px"></span></span>'
+];
+function setLogo(){document.getElementById("brand").innerHTML=LOGOS[LI]+'<small class="ln">'+(LI+1)+'/'+LOGOS.length+'</small>'}
+var br=document.getElementById("brand");br.innerHTML=LOGOS[2];br.removeAttribute("data-au");
+// ===== الطلبات والمرتجعات (تُحفظ في متصفح العميل) =====
+var ORD={},RET={};
+try{ORD=JSON.parse(localStorage.getItem("mg_ord")||"{}");RET=JSON.parse(localStorage.getItem("mg_ret")||"{}")}catch(e){}
+function saveOrd(){try{localStorage.setItem("mg_ord",JSON.stringify(ORD));localStorage.setItem("mg_ret",JSON.stringify(RET))}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function num(n){return n.toLocaleString(L==="en"?"en-US":"ar-EG")}
+function fdate(d){return new Date(d).toLocaleDateString(L==="en"?"en-GB":"ar-EG")}
+function myOrders(){return ME?(ORD[ME.email]||[]):[]}
+function myRets(){return ME?(RET[ME.email]||[]):[]}
+function recOrder(){
+ if(!ME)return;var its=[],t=0;
+ P.forEach(function(p){var k=cart[p.id]||0;if(k){its.push({id:p.id,q:k,p:p.p});t+=k*p.p}});
+ if(!its.length)return;
+ (ORD[ME.email]=ORD[ME.email]||[]).push({id:String(Date.now()).slice(-6),date:new Date().toISOString(),items:its,total:t});
+ saveOrd();cart={};
+}
+// ===== صفحات من نحن / الدعم / العنوان: عدّل النصوص هنا لاحقاً =====
+var PAGES={
+ about:{t:'من نحن',h:'<p>اكتب هنا نبذة عن متجر My Gallery وقصته وما يميزه.</p>'},
+ support:{t:'الدعم',h:'<p>اكتب هنا معلومات الدعم وساعات العمل وطرق الاستفسار.</p><a class="buy" style="display:block;text-align:center;text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/'+WHATSAPP+'">تواصل معنا عبر واتساب</a>'},
+ address:{t:'العنوان',h:'<p>اكتب هنا عنوان المتجر بالتفصيل.</p>'}
+};
+function pgOpen(t,h){document.getElementById("pgT").textContent=t;var b=document.getElementById("pgB");b.innerHTML=h;b.scrollTop=0;document.getElementById("pg").classList.add("open")}
+function pgClose(){document.getElementById("pg").classList.remove("open")}
+function needLogin(t){pgOpen(t,'<p class="pgp">سجّل الدخول لعرض هذه الصفحة</p><button class="buy" data-pgx="login">تسجيل الدخول</button>')}
+function itemRows(its){return its.map(function(i){var p=P.filter(function(x){return x.id==i.id})[0];return '<div class="orow"><span>'+(p?p.n:i.id)+'</span><span>'+num(i.q)+' × '+money(i.p)+'</span></div>'}).join('')}
+function orderCard(o){
+ var rd=myRets().some(function(r){return r.oid===o.id});
+ return '<div class="oc"><div class="orow"><b>#'+o.id+'</b><span>'+fdate(o.date)+'</span></div>'+itemRows(o.items)+'<div class="orow"><span>الإجمالي</span><b>'+money(o.total)+'</b></div><div class="orow"><span>الحالة</span><span>قيد المراجعة</span></div>'+(rd?'<div class="orow"><span>تم طلب الإرجاع</span></div>':'<button class="chip" data-ret="'+o.id+'">طلب إرجاع</button>')+'</div>';
+}
+function pgOrders(){
+ if(!ME)return needLogin('طلباتي');
+ var h='';myOrders().slice().reverse().forEach(function(o){h+=orderCard(o)});
+ pgOpen('طلباتي',h||'<p class="pgp">لا توجد طلبات بعد</p>');
+}
+function pgReturns(){
+ if(!ME)return needLogin('مرتجعاتي');
+ var os=myOrders(),h='';
+ myRets().slice().reverse().forEach(function(r){var o=os.filter(function(x){return x.id===r.oid})[0];if(o)h+='<div class="oc"><div class="orow"><b>#'+o.id+'</b><span>'+fdate(r.date)+'</span></div>'+itemRows(o.items)+'<div class="orow"><span>الإجمالي</span><b>'+money(o.total)+'</b></div><div class="orow"><span>الحالة</span><span>قيد المراجعة</span></div></div>'});
+ pgOpen('مرتجعاتي',h||'<p class="pgp">لا توجد مرتجعات بعد</p>');
+}
+function pgInfo(){
+ if(!ME)return needLogin('معلوماتي');
+ var os=myOrders(),rs=myRets(),tot=0,rt=0,agg={};
+ os.forEach(function(o){tot+=o.total;o.items.forEach(function(i){var a=agg[i.id]=agg[i.id]||{q:0,p:i.p,s:0};a.q+=i.q;a.s+=i.q*i.p})});
+ rs.forEach(function(r){var o=os.filter(function(x){return x.id===r.oid})[0];if(o)rt+=o.total});
+ var h='<div class="oc"><div class="orow"><span>الاسم</span><b>'+esc(ME.first+' '+ME.last)+'</b></div><div class="orow"><span>الحساب</span><b dir="ltr">'+esc(ME.email)+'</b></div></div>';
+ h+='<div class="oc"><div class="orow"><span>عدد الطلبات</span><b>'+num(os.length)+'</b></div><div class="orow"><span>إجمالي المشتريات</span><b>'+money(tot)+'</b></div><div class="orow"><span>قيمة المرتجعات</span><b>'+money(rt)+'</b></div><div class="orow"><span>الصافي</span><b>'+money(tot-rt)+'</b></div></div>';
+ var ks=Object.keys(agg);
+ h+='<div class="sech">المشتريات</div>'+(ks.length?'<div class="oc">'+ks.map(function(k){var p=P.filter(function(x){return x.id==k})[0],a=agg[k];return '<div class="orow"><span>'+(p?p.n:k)+'</span><span>'+num(a.q)+' × '+money(a.p)+' = '+money(a.s)+'</span></div>'}).join('')+'</div>':'<p class="pgp">لا توجد طلبات بعد</p>');
+ h+='<div class="sech">المرتجعات</div>'+(rs.length?'<div class="oc">'+rs.map(function(r){return '<div class="orow"><span>#'+r.oid+'</span><span>'+fdate(r.date)+'</span></div>'}).join('')+'</div>':'<p class="pgp">لا توجد مرتجعات بعد</p>');
+ pgOpen('معلوماتي',h);
+}
+function doReturn(id){
+ if(!ME)return;var rs=(RET[ME.email]=RET[ME.email]||[]);
+ if(!rs.some(function(r){return r.oid===id})){rs.push({oid:id,date:new Date().toISOString()});saveOrd()}
+ var m=L==="en"?"Hello, I would like to return order #"+id:"مرحباً، أريد إرجاع الطلب رقم #"+id;
+ openUrl("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(m));
+ pgReturns();
+}
+document.addEventListener("click",function(e){
+ var t=e.target,b;
+ if(b=t.closest("[data-pg]")){var k=b.dataset.pg;if(k==="orders")pgOrders();else if(k==="returns")pgReturns();else if(k==="info")pgInfo();else if(PAGES[k])pgOpen(PAGES[k].t,PAGES[k].h)}
+ else if(b=t.closest("[data-ret]")){doReturn(b.dataset.ret)}
+ else if(b=t.closest("[data-pgx]")){pgClose();if(b.dataset.pgx==="login"){var m=document.querySelector('#menu [data-au="login"]');if(m)m.click()}}
+});
+[['حسابي','My Account'],['طلباتي','My Orders'],['مرتجعاتي','My Returns'],['معلوماتي','My Information'],['خدمة العملاء','Customer Service'],['من نحن','About Us'],['الدعم','Support'],['العنوان','Address'],
+['سجّل الدخول لعرض هذه الصفحة','Please log in to view this page'],['لا توجد طلبات بعد','No orders yet'],['لا توجد مرتجعات بعد','No returns yet'],['طلب إرجاع','Request Return'],['تم طلب الإرجاع','Return requested'],['الحالة','Status'],['قيد المراجعة','Under review'],
+['الاسم','Name'],['الحساب','Account'],['عدد الطلبات','Number of orders'],['إجمالي المشتريات','Total purchases'],['قيمة المرتجعات','Returned value'],['الصافي','Net total'],['المشتريات','Purchases'],['المرتجعات','Returns'],
+['اكتب هنا نبذة عن متجر My Gallery وقصته وما يميزه.','Write here an overview of My Gallery store, its story and what makes it special.'],['اكتب هنا معلومات الدعم وساعات العمل وطرق الاستفسار.','Write here the support information, working hours and ways to ask.'],['تواصل معنا عبر واتساب','Contact us on WhatsApp'],['اكتب هنا عنوان المتجر بالتفصيل.','Write here the store address in detail.']
+].forEach(function(x){D[x[0]]=x[1]});
+// ===== شعارات وسائل التواصل بألوانها الأصلية =====
+var BI={
+wa:'<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#25D366"/><path d="M16 6.5a9.5 9.5 0 0 0-8.1 14.4L6.5 25.5l4.8-1.3A9.5 9.5 0 1 0 16 6.5z" fill="none" stroke="#fff" stroke-width="2"/><path fill="#fff" d="M12.6 11.5c.3-.5.8-.4 1 0l.8 1.8c.1.3 0 .6-.2.8l-.5.6c.9 1.5 2 2.6 3.6 3.4l.6-.7c.2-.2.5-.3.8-.2l1.8.8c.4.2.5.7.2 1.1-.8 1-1.9 1.4-3.1.9-2.9-1.1-5.2-3.3-6.3-6.3-.4-1.1 0-2.1.8-2.7z"/></svg>',
+ig:'<svg viewBox="0 0 32 32"><defs><linearGradient id="ig1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".65" stop-color="#d6249f"/><stop offset="1" stop-color="#285aeb"/></linearGradient></defs><rect width="32" height="32" rx="8" fill="url(#ig1)"/><rect x="7.5" y="7.5" width="17" height="17" rx="5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="16" cy="16" r="4" fill="none" stroke="#fff" stroke-width="2"/><circle cx="21" cy="11" r="1.2" fill="#fff"/></svg>',
+fb:'<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#1877f2"/><path fill="#fff" d="M17.8 26v-8.6h2.9l.5-3.4h-3.4v-2.1c0-1 .3-1.6 1.7-1.6h1.8V7.3c-.3 0-1.4-.2-2.6-.2-2.6 0-4.3 1.6-4.3 4.5V14h-2.9v3.4h2.9V26z"/></svg>',
+x:'<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8" style="fill:var(--ftx)"/><path style="fill:var(--fbg)" transform="translate(7 7) scale(.75)" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+yt:'<svg viewBox="0 0 32 32"><rect y="6" width="32" height="20" rx="6" fill="#ff0000"/><polygon points="13,11 22,16 13,21" fill="#fff"/></svg>'
+};
+for(var bk in BI){document.getElementById("f-"+bk).innerHTML=BI[bk]}
+menuRender();
+function sendCode(email,code){
+ var msg=L==="en"?"My Gallery confirmation code is "+code+". Please do not share it with anyone.":"رمز التأكيد My gallery هو "+code+" من فضلك لا تقوم بمشاركته مع أحد آخر";
+ if(!EMAILJS.service)return Promise.resolve({demo:true,msg:msg});
+ return fetch("https://api.emailjs.com/api/v1.0/email/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({service_id:EMAILJS.service,template_id:EMAILJS.template,user_id:EMAILJS.key,template_params:{to_email:email,message:msg}})}).then(function(r){if(!r.ok)throw 0;return {demo:false,msg:msg}});
+}
+function showVerify(u,r){
+ showM('<h2>تأكيد الحساب</h2><p style="margin:8px 0;font-size:14px">أرسلنا رمز التأكيد إلى <b dir="ltr">'+u+'</b></p>'+(r.demo?'<div class="amsg ok"><span>وضع تجريبي: لم يُضبط الإرسال بعد. نص الرسالة:</span> '+r.msg+'</div>':'')+'<input class="inp" id="v-c" inputmode="numeric" maxlength="6" dir="ltr" placeholder="أدخل الرمز المكوّن من 6 أرقام"><div id="a-m" class="amsg"></div><button class="buy" data-au="verify">تأكيد</button>');
+}
+document.addEventListener("click",function(e){
+ var b=e.target.closest("[data-au]"),menu=document.getElementById("menu");
+ if(!b){if(!e.target.closest("#menu"))menu.classList.remove("open");return}
+ var a=b.dataset.au;
+ if(a==="menu"){menu.classList.toggle("open");return}
+ if(a==="logo"){LI=(LI+1)%LOGOS.length;setLogo();return}
+ if(a==="lang"||a==="theme"||a==="search"){menu.classList.remove("open");if(a==="lang")setLang(L==="en"?"ar":"en");else if(a==="theme")toggleTheme();else{var qq=document.getElementById("q");qq.scrollIntoView({block:"center",behavior:"smooth"});qq.focus()}return}
+ menu.classList.remove("open");
+ if(a==="login"){showM('<h2>تسجيل الدخول</h2><input class="inp" id="a-u" dir="ltr" placeholder="الحساب (Gmail)" style="margin-top:10px"><input class="inp" id="a-p" type="password" placeholder="كلمة المرور"><div id="a-m" class="amsg"></div><button class="buy" data-au="dologin">دخول</button>')}
+ else if(a==="reg"){showM('<h2>التسجيل</h2><div class="two" style="margin-top:10px"><input class="inp" id="r-f" placeholder="الاسم الأول"><input class="inp" id="r-l" placeholder="اسم العائلة"></div><input class="inp" id="r-u" dir="ltr" placeholder="الحساب user name (Gmail)"><div class="two"><input class="inp" id="r-p" type="password" placeholder="كلمة المرور"><input class="inp" id="r-c" type="password" placeholder="تأكيد كلمة المرور"></div><div id="a-m" class="amsg"></div><button class="buy" data-au="doreg">تسجيل</button>')}
+ else if(a==="logout"){ME=null;menuRender()}
+ else if(a==="dologin"){
+  var u=val("a-u").toLowerCase(),p=document.getElementById("a-p").value,acc=ACC[u];
+  if(!acc){msgBox("الحساب غير موجود، سجّل أولاً");return}
+  hsh(p).then(function(h){if(h!==acc.h){msgBox("كلمة المرور غير صحيحة");return}ME=acc;closeM();menuRender()});
+ }
+ else if(a==="doreg"){
+  var f=val("r-f"),l=val("r-l"),u2=val("r-u").toLowerCase(),p1=document.getElementById("r-p").value,p2=document.getElementById("r-c").value;
+  if(!f||!l||!u2||!p1||!p2){msgBox("من فضلك املأ كل الخانات");return}
+  if(!/^[a-z0-9._%+-]+@gmail\.com$/.test(u2)){msgBox("اكتب حساب Gmail صحيحاً مثل name@gmail.com");return}
+  if(p1.length<6){msgBox("كلمة المرور 6 أحرف على الأقل");return}
+  if(p1!==p2){msgBox("تأكيد كلمة المرور غير مطابق");return}
+  if(ACC[u2]){msgBox("هذا الحساب مسجّل من قبل، سجّل الدخول");return}
+  msgBox("جارٍ إرسال الرمز…",true);
+  var code=String(100000+crypto.getRandomValues(new Uint32Array(1))[0]%900000);
+  hsh(p1).then(function(h){PEND={first:f,last:l,email:u2,h:h,code:code};return sendCode(u2,code)}).then(function(r){showVerify(u2,r)}).catch(function(){msgBox("تعذّر إرسال الرمز، حاول لاحقاً")});
+ }
+ else if(a==="verify"){
+  if(PEND&&val("v-c")===PEND.code){ACC[PEND.email]={first:PEND.first,last:PEND.last,email:PEND.email,h:PEND.h};saveAcc();ME=ACC[PEND.email];PEND=null;closeM();menuRender()}
+  else{msgBox("الرمز غير صحيح")}
+ }
+});
+var bearDrag=false;
+// نسخة موثوقة لتحريك الدبدوب باللمس والماوس
+(function(){
+ var old=document.getElementById("bear"),b=old.cloneNode(true);old.parentNode.replaceChild(b,old);
+ var on=false,mv=false,sx=0,sy=0,sl=0,st=0;
+ function pt(e){return e.touches&&e.touches[0]?e.touches[0]:(e.changedTouches&&e.changedTouches[0]?e.changedTouches[0]:e)}
+ function start(e){var p=pt(e),r=b.getBoundingClientRect();on=true;mv=false;sx=p.clientX;sy=p.clientY;sl=r.left;st=r.top;b.classList.add("drag")}
+ function move(e){if(!on)return;var p=pt(e),dx=p.clientX-sx,dy=p.clientY-sy;if(!mv&&Math.abs(dx)+Math.abs(dy)<8)return;mv=true;if(e.cancelable)e.preventDefault();b.style.left=Math.max(0,Math.min(window.innerWidth-b.offsetWidth,sl+dx))+"px";b.style.top=Math.max(8,Math.min(window.innerHeight-b.offsetHeight-80,st+dy))+"px"}
+ function end(){if(!on)return;on=false;b.classList.remove("drag");if(mv){var mid=b.offsetLeft+b.offsetWidth/2;b.style.left=(mid<window.innerWidth/2?8:window.innerWidth-b.offsetWidth-8)+"px"}else{showOffers()}}
+ b.addEventListener("touchstart",start,{passive:true});
+ document.addEventListener("touchmove",move,{passive:false});
+ document.addEventListener("touchend",function(e){if(on&&e.cancelable)e.preventDefault();end()},{passive:false});
+ document.addEventListener("touchcancel",function(){on=false;b.classList.remove("drag")});
+ b.addEventListener("mousedown",function(e){start(e);e.preventDefault()});
+ document.addEventListener("mousemove",move);
+ document.addEventListener("mouseup",end);
+ b.addEventListener("click",function(e){e.stopPropagation()});
+})();
+// ===== قسم الآراء =====
+var STAR=0;
+function paintStars(){document.querySelectorAll("#stars button").forEach(function(b){b.classList.toggle("on",+b.dataset.st<=STAR)})}
+document.getElementById("stars").addEventListener("click",function(e){var b=e.target.closest("[data-st]");if(b){STAR=+b.dataset.st;paintStars()}});
+document.getElementById("fb-send").addEventListener("click",function(){
+ var n=document.getElementById("fb-n").value.trim(),t=document.getElementById("fb-t").value.trim();
+ if(!STAR&&!t){toast(L==="en"?"Please add a rating or a comment":"أضف تقييماً أو تعليقاً أولاً");return}
+ var m=L==="en"?"Feedback on My Gallery"+(n?" from "+n:"")+":\n"+(STAR?"Rating: "+"★".repeat(STAR)+" ("+STAR+"/5)\n":"")+(t?t:""):"رأيي في My Gallery"+(n?" (من "+n+")":"")+":\n"+(STAR?"التقييم: "+"★".repeat(STAR)+" ("+STAR+"/5)\n":"")+(t?t:"");
+ openUrl("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(m));
+});
+try{if(window.claude&&claude.use){claude.use("comments").then(function(c){
+ if(!c||!c.openComposer)return;var b=document.getElementById("fb-cm");b.style.display="block";
+ b.addEventListener("click",function(){c.openComposer({element:document.getElementById("fb")}).catch(function(){})});
+}).catch(function(){})}}catch(e){}
+[['رأيك يهمنا','Your Opinion Matters'],['شاركنا تقييمك واقتراحاتك لتحسين المتجر','Share your rating and suggestions to help us improve the store'],['اسمك (اختياري)','Your name (optional)'],['اكتب رأيك أو اقتراحك هنا…','Write your opinion or suggestion here…'],['أرسل رأيك عبر واتساب 💬','Send your feedback via WhatsApp 💬'],['علّق على الصفحة مباشرة 📝','Comment on the page directly 📝'],['الخصم','Discount'],['تمت الإضافة إلى السلة ✓','Added to cart ✓'],['أضف تقييماً أو تعليقاً أولاً','Please add a rating or a comment']].forEach(function(x){D[x[0]]=x[1]});
+
+// ===== تقييمات المستخدمين داخل صفحة المنتج =====
+var RS=0,UREV={};
+try{UREV=JSON.parse(localStorage.getItem("mg_rev")||"{}")}catch(e){}
+var RN=['أحمد','سارة','محمد','نور','هدى','يوسف'];
+var RT=['منتج جميل وجودته ممتازة، وصلني بتغليف أنيق','مطابق للصورة والوصف وسعره مناسب','أعجبني جداً وأنصح به كهدية','التعامل سريع والمنتج أفضل من توقعي','جودة جيدة، أتمنى توفر ألوان أكثر','هدية مميزة وفرحت بها كثيراً'];
+var RSC=[5,4,5,5,4,5];
+function sampleRev(id){return [id%6,(id+2)%6,(id+4)%6].map(function(i){return {n:RN[i],s:RSC[i],t:RT[(i+id)%6],sample:1}})}
+function starStr(n){return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n)}
+function revHtml(id){
+ RS=0;var all=(UREV[id]||[]).slice().reverse().concat(sampleRev(id)),sum=0;
+ all.forEach(function(r){sum+=r.s});
+ var avg=(Math.round(sum/all.length*10)/10).toLocaleString(L==="en"?"en-US":"ar-EG");
+ var h='<div class="rvh"><span>تقييمات المستخدمين</span><small>★ '+avg+' / '+num(5)+' ('+num(all.length)+')</small></div>';
+ all.forEach(function(r){h+='<div class="rvc"><div class="top2"><b>'+esc(r.n)+'</b><span class="st">'+starStr(r.s)+'</span></div><p>'+esc(r.t)+'</p></div>'});
+ h+='<div class="rvn">التقييمات الظاهرة بالأعلى نماذج تجريبية</div>';
+ h+='<div class="rvf"><b>أضف تقييمك</b><div class="stars rs" style="margin:8px 0">'+[1,2,3,4,5].map(function(k){return '<button data-rs="'+k+'" aria-label="'+k+'">★</button>'}).join("")+'</div><input class="inp" id="rv-n" placeholder="اسمك (اختياري)"><textarea class="inp" id="rv-t" placeholder="اكتب رأيك في المنتج…"></textarea><button class="buy alt" data-rsend="'+id+'" style="background:linear-gradient(135deg,#7c3aed,#ec4899)">إرسال التقييم</button></div>';
+ return h;
+}
+document.addEventListener("click",function(e){
+ var t=e.target,b;
+ if(b=t.closest("[data-rs]")){RS=+b.dataset.rs;Array.prototype.forEach.call(b.parentNode.children,function(x){x.classList.toggle("on",+x.dataset.rs<=RS)});return}
+ if(b=t.closest("[data-rsend]")){
+  var id=b.dataset.rsend,n=document.getElementById("rv-n").value.trim(),tx=document.getElementById("rv-t").value.trim();
+  if(!RS){toast("اختر عدد النجوم أولاً");return}
+  (UREV[id]=UREV[id]||[]).push({n:n||"زائر",s:RS,t:tx||"بدون تعليق"});
+  try{localStorage.setItem("mg_rev",JSON.stringify(UREV))}catch(x){}
+  showDetail(id);toast("شكراً لتقييمك ✓");
+ }
+});
+[['تقييمات المستخدمين','User Reviews'],['التقييمات الظاهرة بالأعلى نماذج تجريبية','The reviews above are sample reviews'],['أضف تقييمك','Add your review'],['اكتب رأيك في المنتج…','Write your opinion about the product…'],['إرسال التقييم','Submit Review'],['اختر عدد النجوم أولاً','Please choose a star rating first'],['شكراً لتقييمك ✓','Thanks for your review ✓'],['زائر','Guest'],['بدون تعليق','No comment'],
+['أحمد','Ahmed'],['سارة','Sara'],['محمد','Mohamed'],['نور','Nour'],['هدى','Huda'],['يوسف','Youssef'],
+['منتج جميل وجودته ممتازة، وصلني بتغليف أنيق','A beautiful product with excellent quality, it arrived elegantly packed'],['مطابق للصورة والوصف وسعره مناسب','Matches the photo and description, with a fair price'],['أعجبني جداً وأنصح به كهدية','I really liked it and recommend it as a gift'],['التعامل سريع والمنتج أفضل من توقعي','Fast service and the product exceeded my expectations'],['جودة جيدة، أتمنى توفر ألوان أكثر','Good quality, I wish more colors were available'],['هدية مميزة وفرحت بها كثيراً','A special gift and I was very happy with it']].forEach(function(x){D[x[0]]=x[1]});
+
+render();
+</script>
+</body>
+</html>
